@@ -220,8 +220,10 @@ def follow(list_mems):
 
 def friend_list():
     num_friends = 0
+    all_friends = []
     for friend in tweepy.Cursor(api.friends).items():
         if friend:
+            all_friends.append(friend)
             num_friends += 1
         else:
             break
@@ -232,7 +234,8 @@ def friend_list():
         print("You are following %d members:" % num_friends)
         print()
         # iterate through list and print friends
-        for friend in tweepy.Cursor(api.friends).items():
+        # for friend in tweepy.Cursor(api.friends).items():
+        for friend in all_friends:
             # isolating the screen name from the raw data
             friend_str = json.dumps(friend._json)
             friend_parse = json.loads(friend_str)
@@ -245,18 +248,34 @@ def friend_list():
 
 def destroy_friends():
     count = 0
-    for friend in tweepy.Cursor(api.friends).items():
-        # isolating the screen name from the raw data
-        friend_str = json.dumps(friend._json)
-        friend_parse = json.loads(friend_str)
-        my_friend = json.dumps(friend_parse['screen_name'], indent=4, sort_keys=True)
-        my_friend = my_friend.strip('\"')
-        api.destroy_friendship(screen_name=my_friend)
-        count += 1
-    print()
-    print("%d friends have been expunged!!" % count)
-    time.sleep(2)
-    ender()
+    all_friends = []
+    try:
+        for friend in tweepy.Cursor(api.friends).items():
+            if friend:
+                all_friends.append(friend)
+            else:
+                break
+    except Exception as e:
+        print("Error: %s" % str(e))
+        ender()
+
+    if len(all_friends) < 1:
+        print("No friends to delete!!")
+        time.sleep(2)
+        ender()
+    else:
+        for friend in all_friends:
+            # isolating the screen name from the raw data
+            friend_str = json.dumps(friend._json)
+            friend_parse = json.loads(friend_str)
+            my_friend = json.dumps(friend_parse['screen_name'], indent=4, sort_keys=True)
+            my_friend = my_friend.strip('\"')
+            api.destroy_friendship(screen_name=my_friend)
+            count += 1
+        print()
+        print("%d friends have been expunged!!" % count)
+        time.sleep(2)
+        ender()
 
 
 def ender():

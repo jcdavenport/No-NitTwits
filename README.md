@@ -12,6 +12,6 @@ This script will allow you to follow all the members of a list owned by a target
 - *Also includes options to view the names of everyone you are currently following,  
 or choose to un-follow everyone.*  
   
+---  
   
-
-
+![](.misc/no-nit.gif)
