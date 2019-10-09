@@ -3,7 +3,7 @@ My Solution for CTO Challenge #12
 
 ---  
 
-####NOTE: You must create a config.py file with your Twitter API credentials.  
+#### NOTE: You must create a config.py file with your Twitter API credentials.  
 
 This script will allow you to follow all the members of a list owned by a target user.  
 - Enter the screen-name of a Twitter user  
